@@ -1,4 +1,4 @@
 window.onload = function() {
 	// console.log('onload');
-	new HiddenHeroes();
+	new HiddenHeroesController(new HiddenHeroes());
 };

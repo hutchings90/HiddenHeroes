@@ -1,4 +1,5 @@
+var controller;
 window.onload = function() {
 	// console.log('onload');
-	new HiddenHeroesController(new HiddenHeroes());
+	controller = new HiddenHeroesController(new HiddenHeroes(navigator.getGamepads()));
 };

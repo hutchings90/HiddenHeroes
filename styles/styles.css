@@ -2,9 +2,14 @@
 	display: inline-block;
 	height: 100px;
 	width: 100px;
-	border: 3px solid transparent;
+	opacity: .75;
 }
 
 .player-icon.active {
-	border-color: green;
+	animation: blink .25s infinite alternate;
+}
+
+@keyframes blink {
+	from { opacity: 1; }
+	to { opacity: .25 }
 }

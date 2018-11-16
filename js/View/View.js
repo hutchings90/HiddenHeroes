@@ -27,3 +27,9 @@ View.prototype.addClassName = function(e, className) {
 	// console.log('addClassName');
 	if (!e.className.includes(className)) e.className += ' ' + className;
 };
+
+View.prototype.clearDocument = function() {
+	// console.log('clearDocument');
+	var b = document.getElementsByTagName('body')[0];
+	while (b.lastChild) b.removeChild(b.lastChild);
+};

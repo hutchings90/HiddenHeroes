@@ -1,9 +1,10 @@
 function HiddenHeroesView() {}
 
-HiddenHeroesView.prototype.playerSelect = function(hiddenHeroes) {
+HiddenHeroesView.prototype = Object.create(View.prototype);
+HiddenHeroesView.constructor = HiddenHeroesView.constructor;
+
+HiddenHeroesView.prototype.playerSelect = function(player) {
 	// console.log('playerSelect');
-	var b = document.getElementsByTagName('body')[0];
-	while (b.lastChild) b.removeChild(b.lastChild);
-	b.appendChild(PlayerSelectView.prototype.playerSelect(hiddenHeroes.playerSelect));
-	PlayerSelectView.prototype.moveSelection(hiddenHeroes.playerSelect.activeI);
+	this.getElement('body').appendChild(PlayerSelectView.prototype.playerSelect(new PlayerSelect()));
+	PlayerSelectView.prototype.moveSelection(0);
 };

@@ -1,12 +1,25 @@
-.player-icon {
+.playable-select-menu * {
+	vertical-align: middle;
+ }
+
+ .playable-select-menu p {
+ 	display: inline-block;
+ 	margin-left: 10px;
+ }
+
+.playable-icon {
 	display: inline-block;
 	height: 100px;
 	width: 100px;
 	opacity: .75;
 }
 
-.player-icon.active {
+.playable-icon.active {
 	animation: blink .25s infinite alternate;
+}
+
+.hide {
+	display: none !important;
 }
 
 @keyframes blink {

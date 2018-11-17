@@ -9,7 +9,7 @@ HiddenHeroesController.prototype.start = function() {
 	// console.log('start');
 	this.loadGamepads();
 	this.activateGamepadSearch();
-	this.startPlayerSelect();
+	this.startPlayableSelect();
 }
 
 HiddenHeroesController.prototype.loadGamepads = function() {
@@ -20,11 +20,11 @@ HiddenHeroesController.prototype.loadGamepads = function() {
 		if (i < gps.length && gps[i]) this.addGamepad(i);
 };
 
-HiddenHeroesController.prototype.startPlayerSelect = function() {
-	// console.log('startPlayerSelect');
+HiddenHeroesController.prototype.startPlayableSelect = function() {
+	// console.log('startPlayableSelect');
 	for (var i = 0; i < this.hiddenHeroes.players.length; i++) {
 		var player = this.hiddenHeroes.players[i];
-		HiddenHeroesView.prototype.playerSelect(this.hiddenHeroes);
+		HiddenHeroesView.prototype.playableSelect(player.i);
 	}
 	this.activateGamepadRead();
 };
@@ -37,15 +37,15 @@ HiddenHeroesController.prototype.activateGamepadSearch = function() {
 		me.addGamepad(e.gamepad.index);
 	});
 	window.addEventListener('gamepaddisconnected', function(e) {
-		console.log('disconnected');
 		me.removeGamepad(e.gamepad.index);
 	});
 };
 
 HiddenHeroesController.prototype.addGamepad = function(gi) {
 	// console.log('addGamepad');
-	HiddenHeroesView.prototype.playerSelect(this.hiddenHeroes.addGamepad(gi));
-	this.gpInputs.push(0);
+	var prevLen = this.hiddenHeroes.players.length;
+	var pi = this.hiddenHeroes.addGamepad(gi);
+	if (prevLen != this.hiddenHeroes.players.length) this.gpInputs.push({ axis: 0, button: 0 });
 };
 
 HiddenHeroesController.prototype.removeGamepad = function(gi) {
@@ -73,23 +73,55 @@ HiddenHeroesController.prototype.readGamepads = function() {
 		if (player.gi >= 0) {
 			var gp = gps[player.gi];
 			if (gp) {
-				var d = 0;
-				switch (gp.axes[0]) {
-				case -1: d = -1; break;
-				case 1: d = 1; break;
-				}
-				if (d != 0) {
-					if (this.gpInputs[i] == 16) {
-						PlayerSelectView.prototype.moveSelection(i, d);
-						this.gpInputs[i] = 8;
-					}
-					else {
-						if (this.gpInputs[i] == 0) PlayerSelectView.prototype.moveSelection(i, d);
-						this.gpInputs[i]++;
-					}
-				}
-				else this.gpInputs[i] = 0;
+				var pi = player.i;
+				this.processButtons(i, pi, gp);
+				if (View.prototype.getElement('#player-' + player.i + '-playable-select-menu .hide')) this.processAxes(i, pi, gp);
 			}
 		}
 	}
+};
+
+HiddenHeroesController.prototype.processAxes = function(i, pi, gp) {
+	// console.log('processAxes');
+	var d = 0;
+	switch (gp.axes[0]) {
+	case -1: d = -1; break;
+	case 1: d = 1; break;
+	}
+	if (!d) this.gpInputs[pi].axis = 0;
+	else {
+		if (this.gpInputs[pi].axis == 16) {
+			PlayableSelectView.prototype.moveSelection(i, d);
+			this.gpInputs[pi].axis = 8;
+		}
+		else {
+			if (this.gpInputs[pi].axis == 0) PlayableSelectView.prototype.moveSelection(i, d);
+			this.gpInputs[pi].axis++;
+		}
+	}
+};
+
+HiddenHeroesController.prototype.processButtons = function(i, pi, gp) {
+	// console.log('processButtons');
+	for (var j in gp.buttons) {
+		j = Number(j);
+		switch (j) {
+		case 0:
+		case 1:
+		case 2:
+		case 3:
+			if (gp.buttons[j].pressed) {
+				if (this.gpInputs[pi].button == 16) {
+					PlayableSelectView.prototype.toggleSelection(pi);
+					this.gpInputs[pi].button = 8;
+				}
+				else {
+					if (this.gpInputs[pi].button == 0) PlayableSelectView.prototype.toggleSelection(pi);
+					this.gpInputs[pi].button++;
+				}
+				return;
+			}
+		}
+	}
+	this.gpInputs[pi].button = 0;
 };

@@ -1,10 +1,11 @@
 function View() {}
 
-View.prototype.makeElement = function(id, className) {
+View.prototype.makeElement = function(tagName, id, className, innerHTML) {
 	// console.log('makeElement');
-	var e = document.createElement('div');
-	e.id = id;
-	e.className = className;
+	var e = document.createElement(tagName);
+	if (id) e.id = id;
+	if (className) e.className = className;
+	if (innerHTML) e.innerHTML = innerHTML;
 	return e;
 };
 
@@ -25,7 +26,16 @@ View.prototype.removeClassName = function(e, className) {
 
 View.prototype.addClassName = function(e, className) {
 	// console.log('addClassName');
-	if (!e.className.includes(className)) e.className += ' ' + className;
+	if (!e.className.includes(className)) {
+		if (e.className) e.className += ' ';
+		e.className += className;
+	}
+};
+
+View.prototype.toggleClassName = function(e, className) {
+	// console.log('toggleClassName');
+	if (e.className.includes(className)) this.removeClassName(e, className);
+	else this.addClassName(e, className);
 };
 
 View.prototype.clearDocument = function() {

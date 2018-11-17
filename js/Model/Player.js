@@ -1,6 +1,7 @@
-function Player(name, gamepad, playable) {
+function Player(name, i, gi, playable) {
 	// console.log('Player');
 	this.name = name;
-	this.gamepad = gamepad;
+	this.i = i;
+	this.gi = gi;
 	this.playable = playable;
 }

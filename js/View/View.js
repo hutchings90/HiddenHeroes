@@ -20,7 +20,7 @@ View.prototype.getElement = function(query) {
 
 View.prototype.removeClassName = function(e, className) {
 	// console.log('removeClassName');
-	e.className = e.className.replace(new RegExp(className, 'g')).replace(/\s+/g, '').trim();
+	e.className = e.className.replace(new RegExp(className, 'g'), '').replace(/\s+/g, '').trim();
 };
 
 View.prototype.addClassName = function(e, className) {

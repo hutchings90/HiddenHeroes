@@ -17,7 +17,6 @@ PlayableSelectView.prototype.moveSelection = function(pi, d) {
 	// console.log('moveSelection');
 	var c = 'active';
 	var e = this.getElement('#player-' + pi + '-playable-select-menu .playable-icon.' + c);
-	console.log(e);
 	this.removeClassName(e, c);
 	switch (d) {
 	case -1:

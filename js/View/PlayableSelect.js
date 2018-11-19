@@ -7,11 +7,13 @@ PlayableSelectView.prototype.playableSelect = function(menu, pi) {
 	// console.log('PlayableSelect');
 	var options = menu.options;
 	var e = this.makeElement('div', 'player-' + pi + '-playable-select-menu', 'playable-select-menu');
-	for (var i = 0, len = options.length; i < len; i++) e.appendChild(PlayableView.prototype.selectIcon(options[i]));
+	var icons = this.makeElement('div', null, 'playable-icons');
+	for (var i = 0, len = options.length; i < len; i++) icons.appendChild(PlayableView.prototype.selectIcon(options[i]));
+	this.addClassName(icons.firstChild, 'active');
+	e.appendChild(icons);
 	e.appendChild(this.makeElement('div'))
 	e.lastChild.appendChild(this.makeElement('p', null, 'hide', 'Ready!'));
 	e.lastChild.appendChild(this.makeElement('p', null, 'hide', 'Gamepad disconnected...'));
-	this.addClassName(e.firstChild, 'active');
 	return e;
 };
 
@@ -24,11 +26,11 @@ PlayableSelectView.prototype.moveSelection = function(pi, d) {
 	switch (d) {
 	case -1:
 		if (e.previousSibling) e = e.previousSibling;
-		else e = e.parentElement.lastChild.previousSibling;
+		else e = e.parentElement.lastChild;
 		break;
 	case 1:
-		if (e.nextSibling == e.parentElement.lastChild) e = e.parentElement.firstChild;
-		else e = e.nextSibling;
+		if (e.nextSibling) e = e.nextSibling;
+		else e = e.parentElement.firstChild;
 		break;
 	}
 	this.addClassName(e, c);

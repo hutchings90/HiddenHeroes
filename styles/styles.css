@@ -8,6 +8,10 @@ body {
 	width: 650px;
 }
 
+.playable-select-menu {
+	margin-bottom: 5px;
+}
+
 .playable-select-menu div {
  	display: inline-block;
 	vertical-align: middle;
@@ -17,6 +21,10 @@ body {
  	text-align: left;
  	padding-left: 10px;
  }
+
+.playable-icons {
+	border: 1px solid black;
+}
 
 .playable-icon {
 	display: inline-block;

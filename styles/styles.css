@@ -1,7 +1,11 @@
 body {
+	text-align: center;
+}
+
+#game {
+	display: inline-block;
 	height: 650px;
 	width: 650px;
-	text-align: center;
 }
 
 .playable-select-menu div {

@@ -12,8 +12,8 @@ function HiddenHeroesController(hiddenHeroes) {
 HiddenHeroesController.prototype.start = function() {
 	// console.log('start');
 	this.loadGamepads();
-	this.activateGamepadSearch();
 	this.startPlayableSelect();
+	this.activateGamepadSearch();
 };
 
 HiddenHeroesController.prototype.loadGamepads = function() {
@@ -21,7 +21,7 @@ HiddenHeroesController.prototype.loadGamepads = function() {
 	var gps = navigator.getGamepads();
 	var len = Math.max(gps.length, this.hiddenHeroes.players.length);
 	for (var i = 0; i < len; i++)
-		if (i < gps.length && gps[i]) this.addGamepad(i);
+		if (i < gps.length && gps[i]) this.addPlayableSelectGamepad(i);
 };
 
 HiddenHeroesController.prototype.startPlayableSelect = function() {
@@ -33,9 +33,9 @@ HiddenHeroesController.prototype.startPlayableSelect = function() {
 
 HiddenHeroesController.prototype.endPlayableSelect = function() {
 	// console.log('endPlayableSelect');
-	this.state = '';
-	this.deactivateGamepadRead();
+	this.state = 'battle';
 	HiddenHeroesView.prototype.endPlayableSelect();
+	this.startBattle();
 };
 
 HiddenHeroesController.prototype.activateGamepadSearch = function() {
@@ -52,8 +52,15 @@ HiddenHeroesController.prototype.deactivateGamepadSearch = function() {
 
 HiddenHeroesController.prototype.addGamepad = function(gi) {
 	// console.log('addGamepad');
+	switch (this.state) {
+	case 'playableSelect': this.addPlayableSelectGamepad(gi); break;
+	case 'battle': this.addBattleGamepad(gi); break;
+	}
+}
+
+HiddenHeroesController.prototype.addPlayableSelectGamepad = function(gi) {
 	var prevLen = this.hiddenHeroes.players.length;
-	var pi = this.hiddenHeroes.addGamepad(gi);
+	var pi = this.hiddenHeroes.addPlayableSelectGamepad(gi);
 	if (prevLen == this.hiddenHeroes.players.length) PlayableSelectView.prototype.playerReconnected(pi);
 	else {
 		this.gpInputs.push({ axis: 0, button: 0 });
@@ -61,6 +68,11 @@ HiddenHeroesController.prototype.addGamepad = function(gi) {
 		case 'playableSelect': HiddenHeroesView.prototype.addPlayableSelect(pi); break;
 		}
 	}
+};
+
+HiddenHeroesController.prototype.addBattleGamepad = function(gi) {
+	// console.log('addBattleGamepad');
+	this.hiddenHeroes.addBattleGamepad(gi);
 };
 
 HiddenHeroesController.prototype.removeGamepad = function(gi) {
@@ -160,4 +172,9 @@ HiddenHeroesController.prototype.processButtons = function(i, pi, gp) {
 		}
 	}
 	this.gpInputs[pi].button = 0;
+};
+
+HiddenHeroesController.prototype.startBattle = function() {
+	// console.log('startBattle');
+	this.state = 'battle';
 };

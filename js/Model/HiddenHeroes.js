@@ -4,6 +4,8 @@ function HiddenHeroes() {
 }
 
 HiddenHeroes.prototype.addGamepad = function(gi) {
+	for (var i in this.players)
+		if (this.players[i].gi == gi) return;
 	for (var i in this.players) {
 		var player = this.players[i];
 		if (player.gi < 0) {

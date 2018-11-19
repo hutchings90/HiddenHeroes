@@ -1,10 +1,17 @@
-.playable-select-menu * {
-	vertical-align: middle;
- }
+body {
+	height: 650px;
+	width: 650px;
+	text-align: center;
+}
 
- .playable-select-menu p {
+.playable-select-menu div {
  	display: inline-block;
- 	margin-left: 10px;
+	vertical-align: middle;
+}
+
+ .playable-select-menu div:last-child {
+ 	text-align: left;
+ 	padding-left: 10px;
  }
 
 .playable-icon {

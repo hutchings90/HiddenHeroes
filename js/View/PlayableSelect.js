@@ -7,13 +7,15 @@ PlayableSelectView.prototype.playableSelect = function(menu, pi) {
 	// console.log('PlayableSelect');
 	var options = menu.options;
 	var e = this.makeElement('div', 'player-' + pi + '-playable-select-menu', 'playable-select-menu');
+	var innerE = this.makeElement('div');
 	var icons = this.makeElement('div', null, 'playable-icons');
 	for (var i = 0, len = options.length; i < len; i++) icons.appendChild(PlayableView.prototype.selectIcon(options[i]));
 	this.addClassName(icons.firstChild, 'active');
-	e.appendChild(icons);
-	e.appendChild(this.makeElement('div'))
-	e.lastChild.appendChild(this.makeElement('p', null, 'hide', 'Ready!'));
-	e.lastChild.appendChild(this.makeElement('p', null, 'hide', 'Gamepad disconnected...'));
+	innerE.appendChild(icons);
+	innerE.appendChild(this.makeElement('div'))
+	innerE.lastChild.appendChild(this.makeElement('p', null, 'hide', 'Ready!'));
+	innerE.lastChild.appendChild(this.makeElement('p', null, 'hide', 'Gamepad disconnected...'));
+	e.appendChild(innerE);
 	return e;
 };
 

@@ -3,13 +3,27 @@ body {
 }
 
 #game {
+	background: black;
 	display: inline-block;
 	height: 650px;
 	width: 650px;
 }
 
+#player-select-done-message {
+	background: white;
+	border: 1px solid black;
+}
+
+#player-select-done-message:not(.hide) {
+	animation: blink .5s infinite alternate;
+}
+
 .playable-select-menu {
 	margin-bottom: 5px;
+}
+
+.playable-select-menu > div {
+	background: white;
 }
 
 .playable-select-menu div {
@@ -17,7 +31,7 @@ body {
 	vertical-align: middle;
 }
 
- .playable-select-menu div:last-child {
+ .playable-select-menu div div:last-child {
  	text-align: left;
  	padding-left: 10px;
  }
